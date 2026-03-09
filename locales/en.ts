@@ -7,7 +7,17 @@ export default {
   },
   admin: {
     title: "Admin dashboard",
-    login: "Admin login",
+    login_title: "Admin login",
+    logout: "Logout",
+    connected_as: "Connected as",
+    description: "Here, you can build your admin interface (content management, users, etc.).",
+    login: {
+      title: "Admin login",
+      email: "Email",
+      password: "Password",
+      button: "Login",
+      loading: "Loading...",
+    },
   },
   landing: {
     title: "Mirokaï",

@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useScopedI18n } from "@/locales/client";
+import Button from "@/components/UI/Button";
 
 type AdminSession =
   | { authenticated: false }
@@ -13,6 +15,7 @@ type AdminSession =
 export default function AdminDashboard() {
   const router = useRouter();
   const [email, setEmail] = useState<string | null>(null);
+  const t = useScopedI18n("admin");
 
   useEffect(() => {
     async function loadSession() {
@@ -44,29 +47,27 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-zinc-50">
-      <div className="w-full max-w-2xl rounded-xl bg-white p-8 shadow">
+    <div className="flex min-h-screen flex-col items-center justify-center">
+      <div className="w-full max-w-2xl rounded-xl p-8 shadow">
         <div className="mb-4 flex items-center justify-between">
-          <h1 className="text-2xl font-semibold text-zinc-900">
-            Tableau de bord admin
+          <h1 className="text-2xl font-semibold">
+            {t("title")}
           </h1>
-          <button
-            type="button"
-            onClick={logout}
-            className="rounded-md border border-zinc-300 px-3 py-1.5 text-sm text-zinc-800 hover:bg-zinc-100"
-          >
-            Se déconnecter
-          </button>
+            <Button
+              onClick={logout}
+              variant="secondary"
+            >
+              {t("logout")}
+            </Button>
         </div>
-        <p className="mb-2 text-sm text-zinc-600">
-          Connecté en tant que{" "}
-          <span className="font-medium text-zinc-900">
+        <p className="mb-2 text-sm">
+          {t("connected_as")} {" "}
+          <span className="font-medium">
             {email ?? "admin"}
           </span>
         </p>
-        <p className="text-sm text-zinc-600">
-          Ici, tu peux construire ton interface d’administration (gestion de
-          contenu, utilisateurs, etc.).
+        <p className="text-sm">
+          {t("description")}
         </p>
       </div>
     </div>

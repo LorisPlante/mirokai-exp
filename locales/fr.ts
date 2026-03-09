@@ -7,7 +7,17 @@ export default {
   },
   admin: {
     title: "Tableau de bord admin",
-    login: "Connexion admin",
+    login_title: "Connexion admin",
+    logout: "Se déconnecter",
+    connected_as: "Connecté en tant que",
+    description: "Ici, tu peux construire ton interface d’administration (gestion de contenu, utilisateurs, etc.).",
+    login: {
+      title: "Connexion admin",
+      email: "Email",
+      password: "Mot de passe",
+      button: "Connexion",
+      loading: "Chargement...",
+    },
   },
   landing: {
     title: "Mirokaï",

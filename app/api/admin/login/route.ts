@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
-import { cookies } from "next/headers";
 import { connectToDatabase } from "@/lib/db";
 import { AdminUser } from "@/models/AdminUser";
 import { hashPassword } from "@/lib/auth";
@@ -37,18 +36,18 @@ export async function POST(req: NextRequest) {
   const token = jwt.sign(
     { sub: user._id.toString(), email: user.email, role: "admin" },
     ADMIN_JWT_SECRET as string,
-    { expiresIn: "7d" }
+    { expiresIn: "1d" }
   );
 
-  const cookieStore = await cookies();
-  cookieStore.set("admin_token", token, {
+  const response = NextResponse.json({ success: true });
+  response.cookies.set("admin_token", token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
     path: "/",
-    maxAge: 60 * 60 * 24 * 7,
+    maxAge: 60 * 60 * 24,
   });
 
-  return NextResponse.json({ success: true });
+  return response;
 }
 

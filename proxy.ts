@@ -10,7 +10,7 @@ export function proxy(req: NextRequest) {
   // On NE protège PAS la page de login elle-même pour éviter les boucles de redirection
   const isAdminPage =
     pathname.startsWith("/admin") && pathname !== "/admin/login";
-  const isAdminApi = pathname.startsWith("/api/admin") && !pathname.endsWith("/login") && !pathname.endsWith("/users");
+  const isAdminApi = pathname.startsWith("/api/admin") && !pathname.endsWith("/login");
 
   if (!isAdminPage && !isAdminApi) {
     return NextResponse.next();
