@@ -2,20 +2,35 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #202020;
+  --primary: #004aad;
+  --secondary: #f09803;
+  --tertiary: #9e63a5;
+  --quaternary: #0eaa92;
+  --quinary: #a3337c;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-tertiary: var(--tertiary);
+  --color-quaternary: var(--quaternary);
+  --color-quinary: var(--quinary);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: #202020;
     --foreground: #ededed;
+    --primary: #004aad;
+  --secondary: #f09803;
+  --tertiary: #9e63a5;
+  --quaternary: #0eaa92;
+  --quinary: #a3337c;
   }
 }
 
