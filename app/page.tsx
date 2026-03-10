@@ -54,12 +54,24 @@ export default function Home() {
       <main className="flex min-h-screen w-full flex-col items-center justify-start p-4">
         <div className="flex w-full items-center justify-between">
           <Image src="/medias/img/Logo-mirokai-exp-light.png" alt="Mirokaï" width={150} height={100} />
-          <div className="flex gap-4 text-base font-medium">
+          <div className="gap-4 text-base font-medium hidden sm:flex">
             <Button
               onClick={() => router.push("/admin")}
             >
               {t("landing.button")}
             </Button>
+            {user ? (
+              <Button variant="secondary" onClick={() => router.push("/profile")}>
+                {t("landing.profile")}
+              </Button>
+            ): (
+            <Button variant="secondary" onClick={() => router.push("/login")}>
+              {t("landing.login")}
+            </Button>
+            )}
+          <LanguageSwitcher />
+          </div>
+          <div className="gap-4 text-base font-medium flex sm:hidden">
             {user ? (
               <Button variant="secondary" onClick={() => router.push("/profile")}>
                 {t("landing.profile")}
@@ -80,7 +92,7 @@ export default function Home() {
             {t("landing.description")}
           </p>
         </div>
-        <div className="w-full flex items-center justify-between gap-2 mt-20">
+        <div className="w-full flex flex-col sm:flex-row items-center justify-between gap-2 mt-20">
           <div className="flex flex-col items-start justify-start gap-2">
           <h2 className="text-2xl font-semibold">
             {t("landing.newsletter.title")}
