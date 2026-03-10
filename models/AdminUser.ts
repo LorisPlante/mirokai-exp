@@ -19,4 +19,3 @@ const AdminUserSchema = new Schema<AdminUserDocument>(
 export const AdminUser: Model<AdminUserDocument> =
   mongoose.models.AdminUser ||
   mongoose.model<AdminUserDocument>("AdminUser", AdminUserSchema);
-

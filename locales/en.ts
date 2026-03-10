@@ -23,6 +23,23 @@ export default {
     title: "Mirokaï",
     description: "Landing page",
     button: "Access the admin",
+    login: "Login",
+    profile: "My profile",
+    newsletter: {
+      title: "Subscribe to the newsletter",
+      description: "Receive the latest news from Mirokaï",
+      button: "Subscribe",
+      loading: "Subscribing...",
+    },
+  },
+  errors: {
+    newsletter: {
+      success: "Subscription successful",
+      error_already_subscribed: "You have already subscribed to the newsletter",
+      error_email_required: "The email is required",
+      error_network: "Network error",
+      error_unknown: "Unknown error",
+    },
   },
 };
 

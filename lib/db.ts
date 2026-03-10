@@ -26,7 +26,9 @@ export async function connectToDatabase() {
 
   if (!cached.promise) {
     cached.promise = mongoose
-      .connect(process.env.MONGODB_URI)
+      .connect(process.env.MONGODB_URI, {
+        dbName: "mirokai-exp",
+      })
       .then((mongooseInstance) => {
         return mongooseInstance;
       });

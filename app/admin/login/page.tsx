@@ -4,30 +4,31 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useScopedI18n } from "@/locales/client";
 import Button from "@/components/UI/Button";
-import Cookies from "js-cookie";
+import { useToast } from "@/app/providers/ToastMessage";
 
 export default function AdminLoginPage() {
   const router = useRouter();
+  const { showToast } = useToast();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const t = useScopedI18n("admin");
 
   useEffect(() => {
-    console.log("useEffect");
-    const adminToken = Cookies.get("admin_token");
-    console.log("adminToken", adminToken);
-    if (adminToken) {
-      console.log("adminToken", adminToken);
-      router.push("/admin");
-    }
+    const checkSession = async () => {
+      const res = await fetch("/api/admin/session", { cache: "no-store" });
+      if (!res.ok) {
+        return;
+      }
+      const data = await res.json().catch(() => ({}));
+      if (data.authenticated) router.push("/admin");
+    };
+    checkSession();
   }, [router]);
 
   // On évite les types d'événements React dépréciés ici pour supprimer les warnings
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    setError(null);
     setLoading(true);
     try {
       const res = await fetch("/api/admin/login", {
@@ -37,7 +38,7 @@ export default function AdminLoginPage() {
       });
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
-        setError(data.error || "Erreur de connexion");
+        showToast(data.error || "Erreur de connexion", "error");
         setLoading(false);
         return;
       }
@@ -45,7 +46,7 @@ export default function AdminLoginPage() {
       router.refresh();
     } catch (err) {
       console.error(err);
-      setError("Erreur réseau");
+      showToast("Erreur réseau", "error");
         setLoading(false);
     }
   }
@@ -81,11 +82,6 @@ export default function AdminLoginPage() {
               required
             />
           </div>
-          {error && (
-            <p className="text-sm" role="alert">
-              {error}
-            </p>
-          )}
           <Button variant="secondary" type="submit" size="full">
             {loading ? t("login.loading") : t("login.button")}
           </Button>
