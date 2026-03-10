@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useUser } from "@/app/providers/UserProvider";
 import Button from "./UI/Button";
 import { useRouter } from "next/navigation";
+import { BotChoice } from "@/models/User";
 
 type Message = {
     id: number;
@@ -13,7 +14,7 @@ type Message = {
 };
 
 const ChatBot = () => {
-    const { user } = useUser();
+    const { user, refreshUser } = useUser();
     const [messages, setMessages] = useState<Message[]>([]);
     const [input, setInput] = useState("");
     const [loading, setLoading] = useState(false);
@@ -26,7 +27,7 @@ const ChatBot = () => {
     useEffect(() => {
         if(isOpen && !user) {
             setTimeout(() => {
-                setMessages([{ id: 1, content: "Please connect to chat with me", role: "bot" }]);
+                setMessages([{ id: 1, content: "Veuillez vous connecter pour commencer à discuter avec moi", role: "bot" }]);
             }, 500);
         }
     }, [isOpen]);
@@ -49,7 +50,7 @@ const ChatBot = () => {
                     ...prev,
                     {
                         id: lastId + 1,
-                        content: "I'm sorry, I can't answer that question",
+                        content: "Je suis désolé, je ne peux pas répondre à cette question",
                         role: "bot",
                     },
                 ];
@@ -83,6 +84,22 @@ const ChatBot = () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, [isOpen]);
+
+    const handleBotChoice = async (bot: BotChoice) => {
+        try {
+            const res = await fetch("/api/bot-choice", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ bot }),
+            });
+            if(res.ok) {
+                refreshUser();
+                setMessages([{ id: 1, content: "Bonjour, je suis " + bot + " ! Comment vas-tu ?", role: "bot" }]);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
   
   return (
     <div className="fixed bottom-4 right-4 z-50">
@@ -98,8 +115,9 @@ const ChatBot = () => {
                     </div>
                     <div className="relative w-full p-2 flex flex-col gap-2 overflow-y-auto h-[288px]" ref={messagesContainerRef}>
                         {messages.map((message) => (
-                            <div key={message.id} className={`w-5/6 ${message.role === "user" ? "bg-primary text-white ml-auto" : "bg-gray-200 text-secondary mr-auto"} rounded-lg p-2`}>
-                                <b>{message.role}</b>
+                            <div key={message.id} className={`w-11/12 ${message.role === "user" ? "bg-primary text-white ml-auto" : "bg-gray-200 text-secondary mr-auto"} rounded-lg p-2`}>
+                                <b>{message.role === "bot" && user?.bot === "Miroka" ? "Miroka" : "Miroki"}</b>
+                                <b>{message.role === "user" && user?.username}</b>
                                 <p>{message.content}</p>
                             </div>
                         ))}
@@ -113,16 +131,24 @@ const ChatBot = () => {
                             </div>
                         )}
                     </div>
-                    {user ? (
+                    {user && user.bot ? (
                     <div className="w-full p-2 flex items-center justify-between gap-2 absolute bottom-0 left-0">
                         <input type="text" className="w-full p-2 rounded-lg border border-secondary" placeholder="Message" value={input} onChange={(e) => setInput(e.target.value)} />
                         <button className="bg-primary text-white rounded-lg p-2" onClick={handleSendMessage}>Send</button>
                     </div>
-                    ):(
+                    ) : user && !user.bot ? (
+                        <div className="w-full p-2 flex flex-col items-center justify-center gap-2 absolute bottom-0 left-0">
+                            <p>Choose your bot</p>
+                            <div className="flex items-center justify-center gap-2">
+                                <Button variant="primary" size="full" onClick={() => handleBotChoice("Miroka")}>Miroka</Button>
+                                <Button variant="primary" size="full" onClick={() => handleBotChoice("Miroki")}>Miroki</Button>
+                            </div>
+                        </div>
+                    ) : !user ? (
                         <div className="w-full p-2 flex items-center justify-center gap-2 absolute bottom-0 left-0">
                             <Button variant="primary" size="full" onClick={() => router.push("/login")}>Login</Button>
                         </div>
-                    )}
+                    ) : null}
                 </div>
             </div>
         )}

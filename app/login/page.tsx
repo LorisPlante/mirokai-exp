@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Button from "@/components/UI/Button";
 import { useToast } from "@/app/providers/ToastMessage";
 import { useUser } from "@/app/providers/UserProvider";
+import { useScopedI18n } from "@/locales/client";
 
 type Mode = "login" | "register";
 
@@ -12,6 +13,7 @@ const LoginPage = () => {
   const router = useRouter();
   const { showToast } = useToast();
   const { refreshUser } = useUser();
+  const t = useScopedI18n("auth");
   const [mode, setMode] = useState<Mode>("login");
   const [username, setusername] = useState("");
   const [email, setEmail] = useState("");
@@ -39,14 +41,14 @@ const LoginPage = () => {
         if (!res.ok) {
           showToast(
             data.error === "email_already_used"
-              ? "Cet email est déjà utilisé"
-              : "Erreur lors de la création du compte",
+              ? t("register.error_email_used")
+              : t("register.error_generic"),
             "error"
           );
           setLoading(false);
           return;
         }
-        showToast("Compte créé, vous pouvez maintenant vous connecter", "success");
+        showToast(t("register.success"), "success");
         setMode("login");
         setPassword("");
         setLoading(false);
@@ -63,22 +65,22 @@ const LoginPage = () => {
       if (!res.ok) {
         showToast(
           data.error === "invalid_credentials"
-            ? "Identifiants invalides"
-            : "Erreur de connexion",
+            ? t("login.error_invalid_credentials")
+            : t("login.error_generic"),
           "error"
         );
         setLoading(false);
         return;
       }
 
-      showToast("Connexion réussie", "success");
+      showToast(t("login.success"), "success");
       resetFields();
       setLoading(false);
       router.push("/");
       refreshUser();
     } catch (err) {
       console.error(err);
-      showToast("Erreur réseau", "error");
+      showToast(t("login.error_network"), "error");
       setLoading(false);
     }
   };
@@ -88,18 +90,18 @@ const LoginPage = () => {
       <div className="w-full max-w-md rounded-xl p-8 shadow">
         <div className="mb-6 flex items-center justify-between">
           <h1 className="text-xl font-semibold">
-            {mode === "login" ? "Connexion" : "Créer un compte"}
+            {mode === "login" ? t("login.title") : t("register.title")}
           </h1>
           <button
             type="button"
-            className="text-sm underline"
+            className="text-sm underline cursor-pointer"
             onClick={() =>
               setMode((prev) => (prev === "login" ? "register" : "login"))
             }
           >
             {mode === "login"
-              ? "Pas encore de compte ? S'inscrire"
-              : "Déjà un compte ? Se connecter"}
+              ? t("login.no_account")
+              : t("login.already_account")}
           </button>
         </div>
 
@@ -109,7 +111,9 @@ const LoginPage = () => {
               <div className="flex gap-2">
                 
                 <div className="flex-1">
-                  <label className="block text-sm font-medium">Pseudo</label>
+                  <label className="block text-sm font-medium">
+                    {t("register.username_label")}
+                  </label>
                   <input
                     type="text"
                     value={username}
@@ -123,7 +127,9 @@ const LoginPage = () => {
           )}
 
           <div>
-            <label className="block text-sm font-medium">Email</label>
+            <label className="block text-sm font-medium">
+              {t("login.email")}
+            </label>
             <input
               type="email"
               value={email}
@@ -133,7 +139,9 @@ const LoginPage = () => {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium">Mot de passe</label>
+            <label className="block text-sm font-medium">
+              {t("login.password")}
+            </label>
             <input
               type="password"
               value={password}
@@ -150,11 +158,11 @@ const LoginPage = () => {
           >
             {loading
               ? mode === "login"
-                ? "Connexion..."
-                : "Création du compte..."
+                ? t("login.loading")
+                : t("register.loading")
               : mode === "login"
-              ? "Se connecter"
-              : "Créer un compte"}
+              ? t("login.submit")
+              : t("register.submit")}
           </Button>
         </form>
       </div>

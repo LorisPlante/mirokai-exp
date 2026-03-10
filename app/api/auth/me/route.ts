@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
+import { connectToDatabase } from "@/lib/db";
+import { User } from "@/models/User";
 
 const USER_JWT_SECRET = process.env.USER_JWT_SECRET as string | undefined;
 
@@ -16,15 +18,28 @@ export async function GET(req: NextRequest) {
 
   try {
     const payload = jwt.verify(token, USER_JWT_SECRET as string) as any;
+    const userId = payload.sub as string | undefined;
+
+    if (!userId) {
+      return NextResponse.json({ authenticated: false }, { status: 200 });
+    }
+
+    await connectToDatabase();
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return NextResponse.json({ authenticated: false }, { status: 200 });
+    }
 
     return NextResponse.json(
       {
         authenticated: true,
         user: {
-          id: payload.sub,
-          username: payload.username,
-          email: payload.email,
-          role: payload.role ?? "user",
+          id: user._id.toString(),
+          username: user.username,
+          email: user.email,
+          bot: user.bot ?? null,
+          role: "user",
         },
       },
       { status: 200 }

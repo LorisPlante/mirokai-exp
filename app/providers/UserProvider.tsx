@@ -7,10 +7,12 @@ import React, {
   useState,
   ReactNode,
 } from "react";
+import { BotChoice } from "@/models/User";
 
 type User = {
   id: string;
   username: string;
+  bot: BotChoice | null;
   email: string;
   role: string;
 };
