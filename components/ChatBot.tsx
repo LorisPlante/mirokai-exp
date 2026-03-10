@@ -25,11 +25,21 @@ const ChatBot = () => {
     const router = useRouter();
 
     useEffect(() => {
-        if(isOpen && !user) {
+        if(isOpen) {
+        if(!user) {
             setTimeout(() => {
                 setMessages([{ id: 1, content: "Veuillez vous connecter pour commencer à discuter avec moi", role: "bot" }]);
             }, 500);
+        } else if (user && !user.bot) {
+            setTimeout(() => {
+                setMessages([{ id: 1, content: "Bonjour, à qui veux-tu parler ?", role: "bot" }]);
+            }, 500);
+        } else if (user && user.bot) {
+            setTimeout(() => {
+                setMessages([{ id: 1, content: "Bonjour, je suis " + user?.bot + " ! Comment vas-tu ?", role: "bot" }]);
+            }, 500);
         }
+    }
     }, [isOpen]);
 
     const handleSendMessage = () => {
@@ -105,7 +115,7 @@ const ChatBot = () => {
     <div className="fixed bottom-4 right-4 z-50">
       <div className="relative">
         <button onClick={() => setIsOpen(!isOpen)} className="bg-primary text-white rounded-full p-2">
-            <Image src="/medias/img/mirokai.webp" alt="ChatBot" width={50} height={50} />
+            <Image src="/medias/img/miroki.webp" alt="ChatBot" width={50} height={50} />
         </button>
         {isOpen && (    
             <div className="absolute -top-98 right-0" ref={chatBotContainerRef}>
@@ -116,7 +126,7 @@ const ChatBot = () => {
                     <div className="relative w-full p-2 flex flex-col gap-2 overflow-y-auto h-[288px]" ref={messagesContainerRef}>
                         {messages.map((message) => (
                             <div key={message.id} className={`w-11/12 ${message.role === "user" ? "bg-primary text-white ml-auto" : "bg-gray-200 text-secondary mr-auto"} rounded-lg p-2`}>
-                                <b>{message.role === "bot" && user?.bot === "Miroka" ? "Miroka" : "Miroki"}</b>
+                                <b>{message.role === "bot" && user?.bot === "Miroka" ? "Miroka" : message.role === "bot" && user?.bot === "Miroki" ? "Miroki" : null}</b>
                                 <b>{message.role === "user" && user?.username}</b>
                                 <p>{message.content}</p>
                             </div>
@@ -133,20 +143,19 @@ const ChatBot = () => {
                     </div>
                     {user && user.bot ? (
                     <div className="w-full p-2 flex items-center justify-between gap-2 absolute bottom-0 left-0">
-                        <input type="text" className="w-full p-2 rounded-lg border border-secondary" placeholder="Message" value={input} onChange={(e) => setInput(e.target.value)} />
+                        <input type="text" className="w-full p-2 rounded-lg border border-secondary text-base" placeholder="Message" value={input} onChange={(e) => setInput(e.target.value)} />
                         <button className="bg-primary text-white rounded-lg p-2" onClick={handleSendMessage}>Send</button>
                     </div>
                     ) : user && !user.bot ? (
                         <div className="w-full p-2 flex flex-col items-center justify-center gap-2 absolute bottom-0 left-0">
-                            <p>Choose your bot</p>
-                            <div className="flex items-center justify-center gap-2">
-                                <Button variant="primary" size="full" onClick={() => handleBotChoice("Miroka")}>Miroka</Button>
-                                <Button variant="primary" size="full" onClick={() => handleBotChoice("Miroki")}>Miroki</Button>
+                            <div className="w-full flex items-center justify-center gap-2">
+                                <Button variant="primary" size="full" onClick={() => handleBotChoice("Miroka")}> <Image src="/medias/img/miroka.webp" alt="Miroka" width={30} height={30} /> <span className="text-base">Miroka</span></Button>
+                                <Button variant="primary" size="full" onClick={() => handleBotChoice("Miroki")}> <Image src="/medias/img/miroki.webp" alt="Miroki" width={30} height={30} /> <span className="text-base">Miroki</span></Button>
                             </div>
                         </div>
                     ) : !user ? (
                         <div className="w-full p-2 flex items-center justify-center gap-2 absolute bottom-0 left-0">
-                            <Button variant="primary" size="full" onClick={() => router.push("/login")}>Login</Button>
+                            <Button variant="primary" size="full" onClick={() => {router.push("/login"); setIsOpen(false);}}>Login</Button>
                         </div>
                     ) : null}
                 </div>

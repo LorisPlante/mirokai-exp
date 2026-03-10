@@ -111,14 +111,14 @@ const LoginPage = () => {
               <div className="flex gap-2">
                 
                 <div className="flex-1">
-                  <label className="block text-sm font-medium">
+                  <label className="block text-base font-medium">
                     {t("register.username_label")}
                   </label>
                   <input
                     type="text"
                     value={username}
                     onChange={(e) => setusername(e.target.value)}
-                    className="mt-1 w-full rounded-md px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-zinc-500 ring-1 ring-zinc-500"
+                    className="mt-1 w-full rounded-md px-3 py-2 text-base shadow-sm focus:outline-none focus:ring-2 focus:ring-zinc-500 ring-1 ring-zinc-500"
                     required
                   />
                 </div>
@@ -127,26 +127,26 @@ const LoginPage = () => {
           )}
 
           <div>
-            <label className="block text-sm font-medium">
+            <label className="block text-base font-medium">
               {t("login.email")}
             </label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="mt-1 w-full rounded-md px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-zinc-500 ring-1 ring-zinc-500"
+              className="mt-1 w-full rounded-md px-3 py-2 text-base shadow-sm focus:outline-none focus:ring-2 focus:ring-zinc-500 ring-1 ring-zinc-500"
               required
             />
           </div>
           <div>
-            <label className="block text-sm font-medium">
+            <label className="block text-base font-medium">
               {t("login.password")}
             </label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="mt-1 w-full rounded-md px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-zinc-500 ring-1 ring-zinc-500"
+              className="mt-1 w-full rounded-md px-3 py-2 text-base shadow-sm focus:outline-none focus:ring-2 focus:ring-zinc-500 ring-1 ring-zinc-500"
               required
             />
           </div>

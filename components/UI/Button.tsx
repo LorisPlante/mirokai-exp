@@ -15,7 +15,7 @@ const Button = ({
 }: ButtonProps) => {
   return (
     <button 
-        className={`rounded-md px-5 py-2 text-md cursor-pointer
+        className={`rounded-md px-5 py-2 text-md cursor-pointer flex items-center justify-center gap-2
           ${variant === "primary" ? "bg-primary text-white" 
               : variant === "secondary" ? "bg-secondary text-white" 
               : variant === "tertiary" ? "bg-tertiary text-white" 

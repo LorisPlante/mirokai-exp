@@ -92,7 +92,7 @@ export default function Home() {
             {t("landing.description")}
           </p>
         </div>
-        <div className="w-full flex flex-col sm:flex-row items-center justify-between gap-2 mt-20">
+        {/* <div className="w-full flex flex-col sm:flex-row items-center justify-between gap-2 mt-20">
           <div className="flex flex-col items-start justify-start gap-2">
           <h2 className="text-2xl font-semibold">
             {t("landing.newsletter.title")}
@@ -101,14 +101,13 @@ export default function Home() {
             {t("landing.newsletter.description")}
           </p>
           </div>
-          
-        <form onSubmit={(e) => handleSubscribeNewsletter(e)} className="flex gap-2">
-          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" className="min-w-[250px] rounded-md px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-zinc-500 ring-1 ring-zinc-500" required />
-          <Button variant="secondary" type="submit" size="fit">
-            {loading ? t("landing.newsletter.loading") : t("landing.newsletter.button")}
-          </Button>
-        </form>
-        </div>
+          <form onSubmit={(e) => handleSubscribeNewsletter(e)} className="flex gap-2">
+            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" className="min-w-[250px] rounded-md px-3 py-2 text-base shadow-sm focus:outline-none focus:ring-2 focus:ring-zinc-500 ring-1 ring-zinc-500" required />
+            <Button variant="secondary" type="submit" size="fit">
+              {loading ? t("landing.newsletter.loading") : t("landing.newsletter.button")}
+            </Button>
+          </form>
+        </div> */}
       </main>
     </div>
   );
