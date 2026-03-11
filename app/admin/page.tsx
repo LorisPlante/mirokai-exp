@@ -69,6 +69,11 @@ export default function AdminDashboard() {
         <p className="text-sm">
           {t("description")}
         </p>
+        <div className="flex flex-row gap-2 pt-4">
+          <Button variant="secondary" onClick={() => router.push("/admin/plan")}>
+            {t("plan_management")}
+          </Button>
+        </div>
       </div>
     </div>
   );

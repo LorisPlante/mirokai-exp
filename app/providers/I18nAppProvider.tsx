@@ -17,7 +17,7 @@ export function I18nAppProvider({ locale, children }: Props) {
       <ToastProvider>
         {children}
         <ToastMessage />
-        <ChatBot />
+        {/* <ChatBot /> */}
       </ToastProvider>
     </UserProvider>
     </I18nProviderClient>;

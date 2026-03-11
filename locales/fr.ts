@@ -18,6 +18,7 @@ export default {
       button: "Connexion",
       loading: "Chargement...",
     },
+    plan_management: "Gestion du plan",
   },
   auth: {
     login: {

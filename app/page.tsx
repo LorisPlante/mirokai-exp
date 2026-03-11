@@ -5,9 +5,11 @@ import { useI18n } from "@/locales/client";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import Button from "@/components/UI/Button";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useToast } from "@/app/providers/ToastMessage";
 import { useUser } from "@/app/providers/UserProvider";
+import { PlanModulePosition, PlanView } from "@/components/Plan/PlanView";
+import AvatarChoices from "@/components/AvatarChoices";
 
 export default function Home() {
   const t = useI18n();
@@ -16,43 +18,75 @@ export default function Home() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
+  const [modules, setModules] = useState<PlanModulePosition[]>([]);
 
   // Adaptation de type pour pouvoir utiliser des clés d'erreur dynamiques sans erreur de typage
   const translate = t as (key: string) => string;
 
-  const handleSubscribeNewsletter = async (e: React.SubmitEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setLoading(true);
-
-    try {
-      const res = await fetch("/api/subscribe-newsletter", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+  useEffect( () => {
+    const loadModules = async () => {
+      const res =  await fetch(`${process.env.NEXT_PUBLIC_BASE_URL ?? ""}/api/plan-modules`, {
+        cache: "no-store",
       });
-      if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
-        showToast(translate(`errors.newsletter.${data.error ?? "error_unknown"}`),"error");
-        setLoading(false);
-        return;
-      }
-      else{
-        setLoading(false);
-        showToast(t("errors.newsletter.success"), "success");
-        setEmail("");
-      }
-    } catch (err) {
-      console.error(err);
-      showToast(t("errors.newsletter.error_network"), "error");
-      setLoading(false);
+      const data =  await res.json();
+      setModules(data.modules ?? []);
     }
-  };
+    loadModules();
+  }, [t]);
+
+  const getHomePage = () => {
+    if(user) {
+      return <AvatarChoices />;
+    }
+    return (
+      <div className="w-screen h-screen flex items-center justify-center bg-[url('/medias/img/home.png')] bg-cover bg-center">
+      </div>
+    );
+    if(!user) {
+      return <div>
+        <h1>Bienvenue sur le site de Mirokaï</h1>
+        <p>Découvrez notre plan de site et nos modules</p>
+        <Button variant="secondary" onClick={() => router.push("/login")}>Se connecter</Button>
+      </div>
+    }
+    else{
+      return <PlanView modules={modules} />;
+    }
+  }
+
+  // const handleSubscribeNewsletter = async (e: React.SubmitEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+  //   e.stopPropagation();
+  //   setLoading(true);
+
+  //   try {
+  //     const res = await fetch("/api/subscribe-newsletter", {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       body: JSON.stringify({ email }),
+  //     });
+  //     if (!res.ok) {
+  //       const data = await res.json().catch(() => ({}));
+  //       showToast(translate(`errors.newsletter.${data.error ?? "error_unknown"}`),"error");
+  //       setLoading(false);
+  //       return;
+  //     }
+  //     else{
+  //       setLoading(false);
+  //       showToast(t("errors.newsletter.success"), "success");
+  //       setEmail("");
+  //     }
+  //   } catch (err) {
+  //     console.error(err);
+  //     showToast(t("errors.newsletter.error_network"), "error");
+  //     setLoading(false);
+  //   }
+  // };
 
   return (
     <div className="flex w-full min-h-screen items-start justify-start font-sans">
-      <main className="flex min-h-screen w-full flex-col items-center justify-start p-4">
-        <div className="flex w-full items-center justify-between">
+      <main className="flex min-h-screen w-full flex-col items-center justify-start">
+        {/* <div className="flex w-full items-center justify-between">
           <Image src="/medias/img/Logo-mirokai-exp-light.png" alt="Mirokaï" width={150} height={100} />
           <div className="gap-4 text-base font-medium hidden sm:flex">
             <Button
@@ -83,15 +117,14 @@ export default function Home() {
             )}
           <LanguageSwitcher />
           </div>
-        </div>
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight">
-            {t("landing.title")}
-          </h1>
-          <p className="max-w-md text-lg leading-8">
-            {t("landing.description")}
-          </p>
-        </div>
+        </div> */}
+
+
+
+        {getHomePage()}
+        
+
+
         {/* <div className="w-full flex flex-col sm:flex-row items-center justify-between gap-2 mt-20">
           <div className="flex flex-col items-start justify-start gap-2">
           <h2 className="text-2xl font-semibold">

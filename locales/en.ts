@@ -18,6 +18,7 @@ export default {
       button: "Login",
       loading: "Loading...",
     },
+    plan_management: "Plan management",
   },
   auth: {
     login: {
