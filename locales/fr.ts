@@ -23,6 +23,7 @@ export default {
   auth: {
     login: {
       title: "Connexion",
+      description: "Connectez-vous à votre compte",
       no_account: "Pas encore de compte ? S'inscrire",
       already_account: "Déjà un compte ? Se connecter",
       email: "Email",
@@ -36,6 +37,7 @@ export default {
     },
     register: {
       title: "Créer un compte",
+      description: "Rentrez vos coordonnées",
       username_label: "Pseudo",
       submit: "Créer un compte",
       loading: "Création du compte...",

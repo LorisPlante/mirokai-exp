@@ -1,20 +1,9 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { cookies } from "next/headers";
 import { I18nAppProvider } from "@/app/providers/I18nAppProvider";
 
 export const viewport = { themeColor: "#20328E" };
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: "Mirokaï Exp",
@@ -41,9 +30,7 @@ export default async function RootLayout({
         <meta name="msapplication-TileColor" content="#20328E" />
         <meta name="theme-color" content="#20328E" />
       </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body>
         <I18nAppProvider locale={locale}>{children}</I18nAppProvider>
       </body>
     </html>

@@ -1,5 +1,35 @@
 @import "tailwindcss";
 
+/* Custom fonts */
+@font-face {
+  font-family: "Acumin Variable";
+  src: url("/fonts/AcuminVariableConcept.otf") format("opentype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "ES Peak";
+  src: url("/fonts/ES Peak/Web Licences/woff2/ESPeak-Regular.woff2")
+      format("woff2"),
+    url("/fonts/ES Peak/Web Licences/woff/ESPeak-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "ES Peak";
+  src: url("/fonts/ES Peak/Web Licences/woff2/ESPeak-Bold.woff2")
+      format("woff2"),
+    url("/fonts/ES Peak/Web Licences/woff/ESPeak-BoldItalic.woff")
+      format("woff");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #202020;
@@ -7,6 +37,14 @@
   --secondary: #A1337A;
   --tertiary: #3995FF;
   --quaternary: #FFBD14;
+
+  --bleu: #004AAD;
+  --rose: #A3337D;
+  --violet: #9E63A5;
+  --vert: #0EAA92;
+  --jaune: #F09803;
+  --noir: #202020;
+  --blanc: #FFFFFF;
 
   --success: #00ab00;
   --error: #dd0000;
@@ -22,19 +60,30 @@
   --color-tertiary: var(--tertiary);
   --color-quaternary: var(--quaternary);
 
+  --color-bleu: var(--bleu);
+  --color-rose: var(--rose);
+  --color-violet: var(--violet);
+  --color-vert: var(--vert);
+  --color-jaune: var(--jaune);
+  --color-noir: var(--noir);
+  --color-blanc: var(--blanc);
+
   --color-success: var(--success);
   --color-error: var(--error);
   --color-info: var(--info);
   --color-warning: var(--warning);
 
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Tailwind font families */
+  --font-acumin: "Acumin Variable", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  --font-espeak: "ES Peak", ui-monospace, SFMono-Regular, Menlo, Monaco,
+    Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-espeak);
 } 
 
 .spin-slow {
@@ -48,4 +97,8 @@ body {
   100% {
     transform: rotate(360deg);
   }
+}
+
+.gradient-background {
+  background: linear-gradient(180deg, #20389d 0%, #443180 33%, #9d3379 100%);
 }

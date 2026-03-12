@@ -69,7 +69,7 @@ const ToastMessage: React.FC = () => {
               />
             </svg>
           )}
-          <span className="block w-auto font-semibold">{toast.message}</span>
+          <span className="block w-auto font-medium">{toast.message}</span>
         </div>
 
         <svg onClick={clearToast} viewBox="0 0 24 24" fill="none" className={`size-6 ${toastStylesSVG[toast.type]} shrink-0 cursor-pointer`}>
