@@ -91,7 +91,8 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen items-center justify-start text-white bg-[#0B1C5A]">
+    <div className="w-screen h-screen bg-[#0B1C5A]">
+    <div className="flex flex-col min-h-screen items-center justify-start text-white bg-[url('/medias/img/Etoiles1.png')] bg-cover bg-no-repeat bg-center">
       <div className="w-full h-[158px] sticky top-0 left-0 right-0 flex items-center justify-center">
         <Image src="/medias/img/Logo-mirokai-exp-dark.png" alt="Mirokaï" width={150} height={100} />
       </div>
@@ -106,22 +107,6 @@ const LoginPage = () => {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          {mode === "register" && (
-            <div className="border-b border-white relative">
-              <input
-                type="text"
-                id="username"
-                value={username}
-                onChange={(e) => setusername(e.target.value)}
-                className="peer/username mt-1 w-full rounded-md p-2 text-base outline-none ring-none focus:outline-none focus:ring-none"
-                required
-              />
-              <label htmlFor="username" className={`${username ? 'hidden' : 'block'} absolute top-1/2 left-0 transform -translate-y-1/2 text-xl font-medium peer-focus/username:hidden peer-active/username:hidden peer-filled/username:hidden peer-valid/username:hidden peer-visited/username:hidden`}>
-                {t("register.username_label")}
-              </label>
-            </div>
-          )}
-
           <div className="border-b border-white relative">
             <input
               type="email"
@@ -204,6 +189,7 @@ const LoginPage = () => {
               : t("login.already_account")}
           </button>
       </div>
+    </div>
     </div>
   );
 };

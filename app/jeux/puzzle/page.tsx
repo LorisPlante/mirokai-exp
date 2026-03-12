@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { PuzzleGame } from "@/components/Games/PuzzleGame";
+import Image from "next/image";
 
 type Difficulty = "easy" | "medium" | "hard";
 
@@ -11,23 +12,16 @@ const difficultyConfig: Record<Difficulty, { rows: number; cols: number }> = {
   hard: { rows: 7, cols: 4 },
 };
 
-const PUZZLE_IMAGES = [
-  "/medias/img/puzzle/puzzle1.png",
-  "/medias/img/puzzle/puzzle2.png",
-  "/medias/img/puzzle/puzzle3.png",
-  "/medias/img/puzzle/puzzle4.png",
-];
-
 const PuzzlePage = () => {
   const [difficulty, setDifficulty] = useState<Difficulty>("medium");
-
+  const [imageSrc, setImageSrc] = useState<string>("1");
   // On choisit l'image en fonction de la difficulté (et on la re-randomise quand elle change)
-  const imageSrc = useMemo(() => {
-    const idx = Math.floor(Math.random() * PUZZLE_IMAGES.length);
-    return PUZZLE_IMAGES[idx];
-  }, [difficulty]);
-
   const { rows, cols } = difficultyConfig[difficulty];
+
+  const handleImageClick = (index: number) => {
+    setImageSrc((index + 1).toString());
+    setDifficulty(difficulty);
+  }
 
   return (
     <div className="min-h-screen w-screen bg-[#0B1C5A] py-10">
@@ -43,7 +37,7 @@ const PuzzlePage = () => {
                 : "bg-white/10 text-white"
             }`}
           >
-            Facile (2×3)
+            {`Facile (2x3)`}
           </button>
           <button
             type="button"
@@ -54,7 +48,7 @@ const PuzzlePage = () => {
                 : "bg-white/10 text-white"
             }`}
           >
-            Moyen (3×5)
+            {`Moyen (3x5)`}
           </button>
           <button
             type="button"
@@ -65,12 +59,24 @@ const PuzzlePage = () => {
                 : "bg-white/10 text-white"
             }`}
           >
-            Difficile (4×7)
+            {`Difficile (4x7)`}
           </button>
+        </div>
+        <div className="flex w-full justify-center gap-3">
+{Array.from({ length: 4 }).map((_, index) => (
+  <button
+    type="button"
+    onClick={() => handleImageClick(index)}
+    className={`text-sm aspect-square overflow-hidden border border-blanc rounded-xl`}
+  >
+    <Image src={`/medias/img/puzzle/puzzle${index + 1}.png`} alt={`Puzzle ${index + 1}`} width={100} height={100} />
+  </button>
+))}
+         
         </div>
       </div>
 
-      <PuzzleGame imageSrc={imageSrc} rows={rows} cols={cols} />
+      <PuzzleGame imageSrc={`/medias/img/puzzle/puzzle${imageSrc}.png`} rows={rows} cols={cols} />
     </div>
   );
 };

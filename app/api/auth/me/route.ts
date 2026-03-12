@@ -38,8 +38,10 @@ export async function GET(req: NextRequest) {
           id: user._id.toString(),
           username: user.username,
           email: user.email,
-          bot: user.bot ?? null,
           role: "user",
+          avatar: user.avatar ?? null,
+          map: user.map ?? null,
+          level: user.level ?? 1,
         },
       },
       { status: 200 }

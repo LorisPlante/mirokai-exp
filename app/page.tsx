@@ -54,132 +54,64 @@ export default function Home() {
     return (
       <>
         {onBoardingStep === 1 && (
-        <div onClick={handleNextStep} className="w-screen h-screen flex flex-col items-center justify-between pt-20 px-6 bg-cover bg-[#0B1C5A]">
-            <Image src="/medias/img/Logo-mirokai-exp-dark.png" alt="Mirokaï" width={150} height={100} />
-            <Image src="/medias/img/Logo-mirokai-exp-dark.png" alt="Mirokaï" width={150} height={100} />
-            <Image src="/medias/img/Logo-mirokai-exp-dark.png" alt="Mirokaï" width={150} height={100} />
+          <div className="w-screen h-screen bg-[#0B1C5A]">
+            <div onClick={handleNextStep} className="w-screen h-screen flex flex-col items-center justify-between pt-20 px-6 bg-[url('/medias/img/Etoiles1.png')] bg-cover bg-no-repeat bg-center">
+              <Image src="/medias/img/Logo_Enchanted_Tools_central.png" alt="Enchanted Tools" width={600} height={100} className="w-[100px] h-auto" />
+              <Image src="/medias/img/Logo-mirokai-exp-dark.png" alt="Mirokaï" width={600} height={100} className="w-[250px] h-auto"/>
+              <Image src="/medias/img/Miorka.png" alt="Miroka" width={600} height={100} className="w-[190px] h-auto"/>
+            </div>
           </div>
         )}
         {onBoardingStep === 2 && (
-        <div className="w-screen h-screen flex items-start justify-center pt-[50%] px-6 bg-cover bg-[#0B1C5A]">
-          <p className="text-white w-full text-center text-[17px] leading-[110%] font-espeak">Sur la planète Nimira vivent les <strong>Mirokaï</strong>. <br/><br/> Des êtres guidés par le <strong>Mirium</strong>, une énergie née des rêves, de l’imagination et de la créativité.</p>
-          <div onClick={handleNextStep} className="absolute bottom-8 right-6 z-20 cursor-pointer">
-            <Arrow direction="right" color="stroke-white" />
+          <div className="w-screen h-screen bg-[#0B1C5A]">
+            <div className="w-screen h-screen flex flex-col gap-12 items-center justify-start pt-22 px-6 bg-[url('/medias/img/Etoiles1.png')] bg-cover bg-no-repeat bg-center">
+            <Image src="/medias/img/Logo-mirokai-exp-dark.png" alt="Mirokaï" width={600} height={100} className="w-[120px] h-auto"/>
+              <p className="text-white w-full text-center text-[17px] leading-[110%] font-espeak">Sur la planète Nimira vivent les <strong>Mirokaï</strong>. <br/><br/> Des êtres guidés par le <strong>Mirium</strong>, une énergie née des rêves, de l’imagination et de la créativité.</p>
+              <Image src="/medias/img/e100_s040_poster__compo__miroka_w003_1.png" alt="Miroki" width={600} height={100} className="w-[190px] h-auto"/>
+            </div>
           </div>
-        </div>
         )}
         {onBoardingStep === 3 && (
-        <div className="w-screen h-screen flex items-start justify-center pt-[50%] px-6 bg-cover bg-[#0B1C5A]">
-          <p className="text-white w-full text-center text-[17px] leading-[110%] font-espeak">Sur notre <strong>Terre</strong>, cette énergie existe aussi.<br/><br/>À chaque fois que quelqu’un <strong>crée</strong>,  <strong>danse</strong> ou  <strong>rêve</strong>, le Mirium apparaît...<br/><br/>Et c’est là que <strong>l’aventure commence !</strong></p>
-          <div onClick={handlePreviousStep} className="absolute bottom-8 left-6 z-20 cursor-pointer">
-            <Arrow direction="left" color="stroke-white" />
+          <div className="w-screen h-screen bg-[#0B1C5A]">
+            <div className="w-screen h-screen flex flex-col gap-12 items-center justify-start pt-22 px-6 bg-[url('/medias/img/Etoiles1.png')] bg-cover bg-no-repeat bg-center">
+            <Image src="/medias/img/Logo-mirokai-exp-dark.png" alt="Mirokaï" width={600} height={100} className="w-[120px] h-auto"/>
+              <p className="text-white w-full text-center text-[17px] leading-[110%] font-espeak">Sur notre <strong>Terre</strong>, cette énergie existe aussi.<br/><br/>À chaque fois que quelqu’un <strong>crée</strong>,  <strong>danse</strong> ou  <strong>rêve</strong>, le Mirium apparaît...<br/><br/>Et c’est là que <strong>l’aventure commence !</strong></p>
+              <Image src="/medias/img/e100_s040_poster__compo__miroki_w003_2.png" alt="Miroki" width={600} height={100} className="w-[190px] h-auto"/>
+            </div>
           </div>
-          <div onClick={handleNextStep} className="absolute bottom-8 right-6 z-20 cursor-pointer">
-            <Arrow direction="right" color="stroke-white" />
-          </div>
-        </div>
         )}
       </>
     );
-    if(!user) {
-      return <div>
-        <h1>Bienvenue sur le site de Mirokaï</h1>
-        <p>Découvrez notre plan de site et nos modules</p>
-        <Button variant="secondary" onClick={() => router.push("/login")}>Se connecter</Button>
-      </div>
-    }
-    else{
-      return <PlanView modules={modules} />;
-    }
   }
 
-  // const handleSubscribeNewsletter = async (e: React.SubmitEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-  //   e.stopPropagation();
-  //   setLoading(true);
-
-  //   try {
-  //     const res = await fetch("/api/subscribe-newsletter", {
-  //       method: "POST",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify({ email }),
-  //     });
-  //     if (!res.ok) {
-  //       const data = await res.json().catch(() => ({}));
-  //       showToast(translate(`errors.newsletter.${data.error ?? "error_unknown"}`),"error");
-  //       setLoading(false);
-  //       return;
-  //     }
-  //     else{
-  //       setLoading(false);
-  //       showToast(t("errors.newsletter.success"), "success");
-  //       setEmail("");
-  //     }
-  //   } catch (err) {
-  //     console.error(err);
-  //     showToast(t("errors.newsletter.error_network"), "error");
-  //     setLoading(false);
-  //   }
-  // };
+  
 
   return (
     <div className="flex w-full min-h-screen items-start justify-start font-sans">
       <main className="flex min-h-screen w-full flex-col items-center justify-start">
-        {/* <div className="flex w-full items-center justify-between">
-          <Image src="/medias/img/Logo-mirokai-exp-light.png" alt="Mirokaï" width={150} height={100} />
-          <div className="gap-4 text-base font-medium hidden sm:flex">
-            <Button
-              onClick={() => router.push("/admin")}
-            >
-              {t("landing.button")}
-            </Button>
-            {user ? (
-              <Button variant="secondary" onClick={() => router.push("/profile")}>
-                {t("landing.profile")}
-              </Button>
-            ): (
-            <Button variant="secondary" onClick={() => router.push("/login")}>
-              {t("landing.login")}
-            </Button>
-            )}
-          <LanguageSwitcher />
-          </div>
-          <div className="gap-4 text-base font-medium flex sm:hidden">
-            {user ? (
-              <Button variant="secondary" onClick={() => router.push("/profile")}>
-                {t("landing.profile")}
-              </Button>
-            ): (
-            <Button variant="secondary" onClick={() => router.push("/login")}>
-              {t("landing.login")}
-            </Button>
-            )}
-          <LanguageSwitcher />
-          </div>
-        </div> */}
-
-
-
         {getHomePage()}
-        
-
-
-        {/* <div className="w-full flex flex-col sm:flex-row items-center justify-between gap-2 mt-20">
-          <div className="flex flex-col items-start justify-start gap-2">
-          <h2 className="text-2xl font-semibold">
-            {t("landing.newsletter.title")}
-          </h2>
-          <p className="text-lg leading-8">
-            {t("landing.newsletter.description")}
-          </p>
+        <div className={`absolute bottom-0 flex w-full px-6 pb-8 items-center ${onBoardingStep === 2 ? 'justify-end' : 'justify-between'}`}>
+            {onBoardingStep !== 1 && onBoardingStep !== 2 && (
+            <button
+                type="button"
+                className="rounded-full bg-white/20 p-3 backdrop-blur"
+                aria-label="Précédent"
+                onClick={handlePreviousStep}
+            >
+                <Arrow direction="left" color="stroke-white" />
+            </button>
+            )}
+            {onBoardingStep !== 1 && (
+            <button
+                type="button"
+                className="rounded-full bg-white/20 p-3 backdrop-blur"
+                aria-label="Suivant"
+                onClick={handleNextStep}
+            >
+                  <Arrow direction="right" color="stroke-white" />
+              </button>
+            )}
           </div>
-          <form onSubmit={(e) => handleSubscribeNewsletter(e)} className="flex gap-2">
-            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" className="min-w-[250px] rounded-md px-3 py-2 text-base shadow-sm focus:outline-none focus:ring-2 focus:ring-zinc-500 ring-1 ring-zinc-500" required />
-            <Button variant="secondary" type="submit" size="fit">
-              {loading ? t("landing.newsletter.loading") : t("landing.newsletter.button")}
-            </Button>
-          </form>
-        </div> */}
       </main>
     </div>
   );

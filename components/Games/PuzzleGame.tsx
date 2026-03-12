@@ -72,7 +72,7 @@ function SortableTile({
       style={style}
       className={`relative border border-white/10 transition ${
         solved
-          ? "opacity-95"
+          ? "opacity-95 pointer-events-none"
           : isDragging
           ? "z-10 scale-105 ring-2 ring-white"
           : "hover:border-white/40"
@@ -109,7 +109,7 @@ export function PuzzleGame({
       shuffled = [shuffled[1], shuffled[0], ...shuffled.slice(2)];
     }
     setTiles(shuffled);
-  }, [total]);
+  }, [total, imageSrc]);
 
   const solved =
     tiles.length === total &&
@@ -178,16 +178,17 @@ export function PuzzleGame({
                 />
               ))}
             </div>
-          </SortableContext>
-        </DndContext>
-      </div>
-
-      {solved && (
-        <div className="rounded-xl bg-white/10 px-4 py-3 text-center text-white">
+            {solved && (
+        <div className="rounded-xl bg-black/50 px-4 py-3 text-center text-white absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
           <div className="text-lg font-semibold">Bravo !</div>
           <div className="text-sm text-white/80">Tu as reconstitué l’image.</div>
         </div>
       )}
+          </SortableContext>
+        </DndContext>
+      </div>
+
+      
     </div>
   );
 }

@@ -84,21 +84,4 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-espeak);
-} 
-
-.spin-slow {
-  animation: spin-slow 7s linear infinite;
-}
-
-@keyframes spin-slow {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-.gradient-background {
-  background: linear-gradient(180deg, #20389d 0%, #443180 33%, #9d3379 100%);
 }
