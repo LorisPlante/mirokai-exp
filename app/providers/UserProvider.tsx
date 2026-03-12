@@ -12,7 +12,7 @@ import { AvatarChoice, MapChoice } from "@/models/User";
 type UserData = {
   avatar: string | null;
   map: string | null;
-  level: number;
+  level: string | null;
 };
 
 type User = {
@@ -49,44 +49,66 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 
         let avatarUrl: string | null = null;
         let mapUrl: string | null = null;
+        let levelUrl: string | null = null;
 
         switch (u.avatar) {
           case "Avatar1":
-            avatarUrl = "/medias/img/avatar1.png";
+            avatarUrl = "/medias/img/avatars/avatar1.png";
             break;
           case "Avatar2":
-            avatarUrl = "/medias/img/avatar2.png";
+            avatarUrl = "/medias/img/avatars/avatar2.png";
             break;
           case "Avatar3":
-            avatarUrl = "/medias/img/avatar3.png";
+            avatarUrl = "/medias/img/avatars/avatar3.png";
             break;
           case "Avatar4":
-            avatarUrl = "/medias/img/avatar4.png";
+            avatarUrl = "/medias/img/avatars/avatar4.png";
             break;
           case "Avatar5":
-            avatarUrl = "/medias/img/avatar5.png";
+            avatarUrl = "/medias/img/avatars/avatar5.png";
             break;
         }
 
         switch (u.map) {
           case "Map1":
-            mapUrl = "/medias/img/map1.png";
+            mapUrl = "/medias/img/maps/map1.png";
             break;
           case "Map2":
-            mapUrl = "/medias/img/map2.png";
+            mapUrl = "/medias/img/maps/map2.png";
             break;
           case "Map3":
-            mapUrl = "/medias/img/map3.png";
+            mapUrl = "/medias/img/maps/map3.png";
             break;
           case "Map4":
-            mapUrl = "/medias/img/map4.png";
+            mapUrl = "/medias/img/maps/map4.png";
+            break;
+        }
+
+        switch (u.level) {
+          case 1:
+            levelUrl = "/medias/img/levels/level1.png";
+            break;
+          case 2:
+            levelUrl = "/medias/img/levels/level2.png";
+            break;
+          case 3:
+            levelUrl = "/medias/img/levels/level3.png";
+            break;
+          case 4:
+            levelUrl = "/medias/img/levels/level4.png";
+            break;
+          case 5:
+            levelUrl = "/medias/img/levels/level5.png";
+            break;
+          default:
+            levelUrl = "/medias/img/levels/level1.png";
             break;
         }
 
         setUserData({
           avatar: avatarUrl,
           map: mapUrl,
-          level: u.level ?? 1,
+          level: levelUrl,
         });
       } else {
         setUser(null);

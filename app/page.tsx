@@ -15,7 +15,7 @@ import Arrow from "@/components/UI/Arrow";
 export default function Home() {
   const t = useI18n();
   const { showToast } = useToast();
-  const { user } = useUser();
+  const { user, userData } = useUser();
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
@@ -24,7 +24,13 @@ export default function Home() {
 
   const handleNextStep = () => {
     if((onBoardingStep + 1) === 4) {
-      router.push("/login");
+      if(!user) {
+        router.push("/login");
+      } else if (user && (!userData?.map || !userData?.avatar)) {
+        router.push("/avatar-choices");
+      } else {
+        router.push("/jeux");
+      }
     }
     setOnBoardingStep(onBoardingStep + 1);
   }
@@ -67,7 +73,7 @@ export default function Home() {
             <div className="w-screen h-screen flex flex-col gap-12 items-center justify-start pt-22 px-6 bg-[url('/medias/img/Etoiles1.png')] bg-cover bg-no-repeat bg-center">
             <Image src="/medias/img/Logo-mirokai-exp-dark.png" alt="Mirokaï" width={600} height={100} className="w-[120px] h-auto"/>
               <p className="text-white w-full text-center text-[17px] leading-[110%] font-espeak">Sur la planète Nimira vivent les <strong>Mirokaï</strong>. <br/><br/> Des êtres guidés par le <strong>Mirium</strong>, une énergie née des rêves, de l’imagination et de la créativité.</p>
-              <Image src="/medias/img/e100_s040_poster__compo__miroka_w003_1.png" alt="Miroki" width={600} height={100} className="w-[190px] h-auto"/>
+              <Image src="/medias/img/e100_s040_poster__compo__miroka_w003_1.png" alt="Miroki" width={600} height={100} className="w-[182px] h-auto"/>
             </div>
           </div>
         )}
@@ -76,7 +82,7 @@ export default function Home() {
             <div className="w-screen h-screen flex flex-col gap-12 items-center justify-start pt-22 px-6 bg-[url('/medias/img/Etoiles1.png')] bg-cover bg-no-repeat bg-center">
             <Image src="/medias/img/Logo-mirokai-exp-dark.png" alt="Mirokaï" width={600} height={100} className="w-[120px] h-auto"/>
               <p className="text-white w-full text-center text-[17px] leading-[110%] font-espeak">Sur notre <strong>Terre</strong>, cette énergie existe aussi.<br/><br/>À chaque fois que quelqu’un <strong>crée</strong>,  <strong>danse</strong> ou  <strong>rêve</strong>, le Mirium apparaît...<br/><br/>Et c’est là que <strong>l’aventure commence !</strong></p>
-              <Image src="/medias/img/e100_s040_poster__compo__miroki_w003_2.png" alt="Miroki" width={600} height={100} className="w-[190px] h-auto"/>
+              <Image src="/medias/img/e100_s040_poster__compo__miroki_w003_2.png" alt="Miroki" width={600} height={100} className="w-[148px] h-auto"/>
             </div>
           </div>
         )}

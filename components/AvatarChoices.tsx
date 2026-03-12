@@ -57,14 +57,14 @@ function ChoiceSlider({
         className="w-full overflow-hidden"
       >
         {items.map((it) => (
-          <SwiperSlide key={it.id} className={`overflow-hidden shadow-none! mx-auto ${initialIndex === items.indexOf(it) ? 'shadow-none!' : 'shadow-none!'}`}>
-            <div className="w-[80vw]! max-w-xs transform translate-x-1/8 bg-vert border border-bleu rounded-3xl overflow-hidden shadow-none!">
+          <SwiperSlide key={it.id} className={`overflow-hidden mx-auto p-0`}>
+            <div className="w-[80vw] aspect-3/4 p-0 transform translate-x-1/8 bg-gray-500 border border-bleu rounded-3xl overflow-hidden">
               <Image
                 src={it.image}
                 alt={it.name}
                 width={400}
                 height={400}
-                className="aspect-3/4 w-full object-contain"
+                className="w-full"
               />
             </div>
           </SwiperSlide>
@@ -75,7 +75,7 @@ function ChoiceSlider({
 }
 
 const AvatarChoices = () => {
-    const { user, refreshUser } = useUser();
+    const { user, refreshUser, loading } = useUser();
     const { showToast } = useToast();
     const [currentStep, setCurrentStep] = useState<number>(0);
     const [username, setUsername] = useState<string>("");
@@ -85,13 +85,15 @@ const AvatarChoices = () => {
     // Initialise l'étape à partir du user uniquement au premier rendu
     if (currentStep !== 0) return;
 
-    if (user?.username) {
-      // Si un jour tu veux sauter directement à la fin quand avatar/map existent déjà :
-      // if (user.avatar && user.map) setCurrentStep(4);
-      // else
-      setCurrentStep(2);
-    } else {
-      setCurrentStep(1);
+    if(!loading) {
+        if (user?.username) {
+        // Si un jour tu veux sauter directement à la fin quand avatar/map existent déjà :
+        // if (user.avatar && user.map) setCurrentStep(4);
+        // else
+        setCurrentStep(2);
+        } else {
+        setCurrentStep(1);
+        }
     }
   }, [user, currentStep]);
 
@@ -113,27 +115,27 @@ const AvatarChoices = () => {
         {
             id: "Avatar1",
             name: "Avatar1",
-            image: "/medias/img/avatar1.png",
+            image: "/medias/img/avatars/avatar1.png",
         },
         {
             id: "Avatar2",
             name: "Avatar2",
-            image: "/medias/img/avatar2.png",
+            image: "/medias/img/avatars/avatar2.png",
         },
         {
             id: "Avatar3",
             name: "Avatar3",
-            image: "/medias/img/avatar3.png",
+            image: "/medias/img/avatars/avatar3.png",
         },
         {
             id: "Avatar4",
             name: "Avatar4",
-            image: "/medias/img/avatar4.png",
+            image: "/medias/img/avatars/avatar4.png",
         },
         {
             id: "Avatar5",
             name: "Avatar5",
-            image: "/medias/img/avatar5.png",
+            image: "/medias/img/avatars/avatar5.png",
         },
     ],
     []
@@ -147,22 +149,22 @@ const AvatarChoices = () => {
         {
             id: "Map1",
             name: "Map1",
-            image: "/medias/img/map1.png",
+            image: "/medias/img/maps/map1.png",
         },
         {
             id: "Map2",
             name: "Map2",
-            image: "/medias/img/map2.png",
+            image: "/medias/img/maps/map2.png",
         },
         {
             id: "Map3",
             name: "Map3",
-            image: "/medias/img/map3.png",
+            image: "/medias/img/maps/map3.png",
         },
         {
             id: "Map4",
             name: "Map4",
-            image: "/medias/img/map4.png",
+            image: "/medias/img/maps/map4.png",
         },
     ],
     []
@@ -252,7 +254,8 @@ const AvatarChoices = () => {
     }
 
     return (
-      <div className="relative flex flex-col justify-start items-center h-screen w-screen overflow-hidden text-white bg-[#0B1C5A]">
+      <div className="h-screen w-screen text-white bg-[#0B1C5A]">
+        <div className="relative flex flex-col justify-start items-center h-full w-full bg-[url('/medias/img/Etoiles1.png')] bg-cover bg-no-repeat bg-center">
 
         {/* Header */}
         <div className="relative w-full flex items-center justify-center py-10">
@@ -314,11 +317,11 @@ const AvatarChoices = () => {
                 Félicitations ! Ton profil a été créé avec succès. Tu es maintenant prêt à vivre l'expérience Miroki.
                 </p>
                 <Image
-                  src="/medias/img/logo-mirokai-exp-dark.png"
+                  src="/medias/img/Miroki.png"
                   alt="Mirokaï"
-                  width={100}
+                  width={600}
                   height={100}
-                  className="w-full h-auto"
+                  className="w-[260px] h-auto"
                 />
                 <Button
                   variant="secondary"
@@ -330,7 +333,7 @@ const AvatarChoices = () => {
             )}
 
           {/* Footer nav */}
-          <div className={`absolute bottom-0 flex w-full px-6 pb-8 items-center ${currentStep === 1 ? 'justify-end' : 'justify-between'}`}>
+          <div className={`absolute bottom-0 left-0 right-0 flex w-full px-6 pb-8 items-center ${currentStep === 1 ? 'justify-end' : 'justify-between'}`}>
             {currentStep !== 1 && currentStep !== 4 && (
             <button
                 type="button"
@@ -372,6 +375,7 @@ const AvatarChoices = () => {
              </button>
             )}
           </div>
+        </div>
         </div>
       </div>
     );

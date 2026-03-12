@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Button from "@/components/UI/Button";
 import { useToast } from "@/app/providers/ToastMessage";
@@ -14,14 +14,16 @@ type Mode = "login" | "register";
 const LoginPage = () => {
   const router = useRouter();
   const { showToast } = useToast();
-  const { refreshUser } = useUser();
+  const { refreshUser, user, loading } = useUser();
   const t = useScopedI18n("auth");
   const [mode, setMode] = useState<Mode>("login");
   const [username, setusername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loadingLogin, setLoadingLogin] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+
+  
 
   const resetFields = () => {
     setusername("");
@@ -31,7 +33,7 @@ const LoginPage = () => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    setLoading(true);
+    setLoadingLogin(true);
 
     try {
       if (mode === "register") {
@@ -48,13 +50,13 @@ const LoginPage = () => {
               : t("register.error_generic"),
             "error"
           );
-          setLoading(false);
+          setLoadingLogin(false);
           return;
         }
         showToast(t("register.success"), "success");
         setMode("login");
         setPassword("");
-        setLoading(false);
+        setLoadingLogin(false);
         return;
       }
 
@@ -72,21 +74,29 @@ const LoginPage = () => {
             : t("login.error_generic"),
           "error"
         );
-        setLoading(false);
+        setLoadingLogin(false);
         return;
       }
 
       showToast(t("login.success"), "success");
       resetFields();
-      setLoading(false);
+      setLoadingLogin(false);
       refreshUser();
       setTimeout(() => {
-        router.push("/avatar-choices");
+        if(!loading) {
+          if(user){
+        if(user?.username && user?.avatar && user?.map) {
+          router.push("/jeux");
+          } else {
+            router.push("/avatar-choices");
+          }
+        }
+        }
       }, 0);
     } catch (err) {
       console.error(err);
       showToast(t("login.error_network"), "error");
-      setLoading(false);
+      setLoadingLogin(false);
     }
   };
 
@@ -156,7 +166,7 @@ const LoginPage = () => {
             type="submit"
             size="full"
           >
-            {loading
+            {loadingLogin
               ? mode === "login"
                 ? t("login.loading")
                 : t("register.loading")
@@ -188,6 +198,12 @@ const LoginPage = () => {
               ? t("login.no_account")
               : t("login.already_account")}
           </button>
+          {mode === "register" && (
+            <Image src="/medias/img/Etoiles.png" alt="Etoiles" width={600} height={100} className="w-[200px] h-auto mx-auto mt-10"/>
+          )}
+          {mode === "login" && (
+            <Image src="/medias/img/rune.png" alt="Rune" width={600} height={100} className="w-[148px] h-auto mx-auto mt-10"/>
+          )}
       </div>
     </div>
     </div>
