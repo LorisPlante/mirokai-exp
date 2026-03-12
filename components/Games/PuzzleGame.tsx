@@ -11,6 +11,9 @@ import {
 } from "@dnd-kit/core";
 import { SortableContext, useSortable, rectSortingStrategy } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import Button from "../UI/Button";
+import { useRouter } from "next/navigation";
+import { useUser } from "@/app/providers/UserProvider";
 
 type Tile = {
   id: string; // string pour dnd-kit
@@ -95,7 +98,8 @@ export function PuzzleGame({
 }) {
   const total = rows * cols;
   const [tiles, setTiles] = useState<Tile[]>([]);
-
+  const router = useRouter();
+  const { user, refreshUser } = useUser();
   useEffect(() => {
     const initial: Tile[] = Array.from({ length: total }).map((_, i) => ({
       id: String(i + 1),
@@ -138,6 +142,26 @@ export function PuzzleGame({
     });
   };
 
+  const handleNextGame = async () => {
+    try {
+      const res = await fetch("/api/update-level", {
+        method: "POST",
+      });
+
+      const data = await res.json().catch(() => ({}));
+
+      if (!res.ok || data.error) {
+        console.error("Erreur lors de la mise à jour du niveau :", data.error);
+        return;
+      }
+
+      await refreshUser();
+      router.push("/jeux");
+    } catch (error) {
+      console.error("Erreur réseau lors de la mise à jour du niveau :", error);
+    }
+  }
+
   return (
     <div className="flex w-full flex-col items-center gap-4">
       <div className="w-full max-w-md text-center text-white">
@@ -179,9 +203,10 @@ export function PuzzleGame({
               ))}
             </div>
             {solved && (
-        <div className="rounded-xl bg-black/50 px-4 py-3 text-center text-white absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+        <div className="flex flex-col items-center gap-2 rounded-xl bg-black/50 px-4 py-3 text-center text-white absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
           <div className="text-lg font-semibold">Bravo !</div>
           <div className="text-sm text-white/80">Tu as reconstitué l’image.</div>
+          <Button variant="secondary" onClick={() => handleNextGame()}>Jeu suivant</Button>
         </div>
       )}
           </SortableContext>

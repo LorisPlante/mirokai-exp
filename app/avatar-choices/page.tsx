@@ -14,8 +14,13 @@ const AvatarChoicesPage = () => {
         }
         if(!user) {
             router.push("/login");
+            return;
         }
-    }, [user, router]);
+        // Si le profil est déjà complet, on envoie directement vers les jeux
+        if (user.username && user.avatar && user.map) {
+            router.push("/jeux");
+        }
+    }, [user, loading, router]);
     
     return (
         <AvatarChoices />

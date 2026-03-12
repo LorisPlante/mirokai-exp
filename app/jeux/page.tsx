@@ -23,13 +23,35 @@ export default function JeuxPage() {
       ? userData.avatar
       : "/medias/img/avatars/avatar1.png";
 
+    const handleLevelClick = () => {
+        if(user && user.level) {
+            switch(user.level) {
+                case 1:
+                    router.push("/jeux/mirokai-lingo");
+                    break;
+                case 2:
+                    router.push("/jeux/quizz");
+                    break;
+                case 3:
+                    router.push("/jeux/puzzle");
+                    break;
+                case 4:
+                    router.push("/plan");
+                    break;
+                case 5:
+                    router.push("/share-links");
+                    break;
+            }
+        }
+    }
+
     return (
         <div
           className="relative flex flex-col justify-start items-center h-screen w-screen overflow-hidden text-white bg-cover bg-no-repeat bg-center"
         >
             <img src={backgroundStyle.backgroundImage ?? "/medias/img/maps/map1.png"} alt="Background" className="w-full h-full object-cover blur-[2px]" />
-            <img src="/medias/img/logo-mirokai-exp-dark.png" alt="Logo" className="w-[120px] absolute top-6 left-1/2 transform -translate-x-1/2 translate-y-1/3" />
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90vw] h-[70vh] bg-black/50 border-2 border-blanc rounded-[20px]">
+            <img src="/medias/img/Logo-mirokai-exp-dark.png" alt="Logo" className="w-[120px] absolute top-6 left-1/2 transform -translate-x-1/2 translate-y-1/3" />
+            <div onClick={handleLevelClick} className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90vw] h-[70vh] bg-black/50 border-2 border-blanc rounded-[20px]">
                 <img src={userData?.level ?? "/medias/img/levels/level1.png"} alt="Level" className="w-full h-full object-cover" />
             </div>
             <img src={avatarImage} alt="Avatar" className="w-50 absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/3" />

@@ -211,7 +211,7 @@ const AvatarChoices = () => {
         }
 
         showToast("Pseudo soumis avec succès.", "success");
-        refreshUser();
+        await refreshUser();
         setCurrentStep((prev) => prev + 1);
       } catch (error) {
         console.error(error);
@@ -245,7 +245,7 @@ const AvatarChoices = () => {
            }
 
            setCurrentStep((prev) => prev + 1);
-           refreshUser();
+           await refreshUser();
         } catch (error) {
             console.error(error);
            showToast("Erreur réseau lors de la soumission du choix.", "error");

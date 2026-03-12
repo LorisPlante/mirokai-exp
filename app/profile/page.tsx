@@ -20,7 +20,7 @@ const ProfilePage = () => {
         });
         if (res.ok) {
             router.push("/");
-            refreshUser();
+            await refreshUser();
         } else {
             showToast(t("profile.error_logout"), "error");
         }

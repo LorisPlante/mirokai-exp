@@ -6,7 +6,7 @@ import { I18nAppProvider } from "@/app/providers/I18nAppProvider";
 export const viewport = { themeColor: "#20328E" };
 
 export const metadata: Metadata = {
-  title: "Mirokaï Exp",
+  title: "Mirokaï Expérience",
   description: "Mirokaï Expérience",
 };
 

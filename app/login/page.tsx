@@ -81,18 +81,8 @@ const LoginPage = () => {
       showToast(t("login.success"), "success");
       resetFields();
       setLoadingLogin(false);
-      refreshUser();
-      setTimeout(() => {
-        if(!loading) {
-          if(user){
-        if(user?.username && user?.avatar && user?.map) {
-          router.push("/jeux");
-          } else {
-            router.push("/avatar-choices");
-          }
-        }
-        }
-      }, 0);
+      await refreshUser();
+      router.push("/avatar-choices");
     } catch (err) {
       console.error(err);
       showToast(t("login.error_network"), "error");
