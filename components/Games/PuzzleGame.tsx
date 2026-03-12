@@ -9,12 +9,7 @@ import {
   closestCenter,
   DragEndEvent,
 } from "@dnd-kit/core";
-import {
-  SortableContext,
-  useSortable,
-  arrayMove,
-  rectSortingStrategy,
-} from "@dnd-kit/sortable";
+import { SortableContext, useSortable, rectSortingStrategy } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
 type Tile = {
@@ -123,7 +118,7 @@ export function PuzzleGame({
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
-        distance: 5,
+        distance: 8,
       },
     })
   );
@@ -136,7 +131,10 @@ export function PuzzleGame({
       const oldIndex = prev.findIndex((t) => t.id === active.id);
       const newIndex = prev.findIndex((t) => t.id === over.id);
       if (oldIndex === -1 || newIndex === -1) return prev;
-      return arrayMove(prev, oldIndex, newIndex);
+      // SWAP uniquement, ne pas insérer dans l'ordre
+      const next = [...prev];
+      [next[oldIndex], next[newIndex]] = [next[newIndex], next[oldIndex]];
+      return next;
     });
   };
 
